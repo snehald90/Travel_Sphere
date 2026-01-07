@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pune Food Trail</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+          /* Add header styles */
+          .food-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #ff6b6b, #3a7bd5);
+            color: white;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 1200px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .food-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .food-header p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Add responsive header */
+        @media (max-width: 768px) {
+            .food-header h1 {
+                font-size: 2rem;
+            }
+            .food-header p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Refine existing styles */
+        .food-title {
+            font-size: 1.25rem; /* Standardize title sizes */
+            min-height: 3em; /* Ensure consistent height */
+        }
+
+        .restaurant {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .food-description {
+            min-height: 80px; /* Consistent description height */
+        }
+
+        /* Add select styling */
+        select.location-select {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 8px;
+            font-size: 0.85rem;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        /* Refine tag colors */
+        .tag-veg {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .tag-spicy {
+            background: #ffebee;
+            color: #c62828;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        
+        .food-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 1200px) {
+            .food-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .food-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .food-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .food-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .food-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+            z-index: 1;
+        }
+        
+        .food-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .food-card:hover::before {
+            left: 100%;
+        }
+        
+        .food-image {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .food-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .food-card:hover .food-image img {
+            transform: scale(1.05);
+        }
+        
+        .card-content {
+            padding: 15px;
+            position: relative;
+            z-index: 2;
+            background: white;
+        }
+        
+        .food-title {
+            color: #333;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        
+        .restaurant {
+            color: #FF6B6B;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .food-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .details {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .price {
+            font-weight: bold;
+            color: #28a745;
+        }
+        
+        .rating {
+            color: #FFD700;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: #3a7bd5;
+            color: white;
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 1px solid #3a7bd5;
+            color: #3a7bd5;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Tag Styles */
+        .tag-container {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: #e3f2fd;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: #1976d2;
+        }
+        
+        .tag-veg {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+        
+        .tag-spicy {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+        
+        .tag-sweet {
+            background: #fff8e1;
+            color: #ff8f00;
+        }
+        
+        .tag-seasonal {
+            background: #f3e5f5;
+            color: #8e24aa;
+        }
+        
+        .tag-icon {
+            margin-right: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="food-header">
+        <h1>Pune's Iconic Food Trail</h1>
+        <p>
+            From sizzling street food to royal Maharashtrian delicacies, Pune offers a culinary journey 
+            that blends tradition with innovation. Explore these 20 must-try dishes that define the city's 
+            vibrant food culture, each telling a story of Pune's rich heritage and modern tastes.
+        </p>
+    </div>
+    <div class="food-container">
+        <!-- Mango Mastani - Enhanced -->
+        <div class="food-card">
+            <div class="food-image">
+                <img src="destinations\Photos\food_items\mango-masani.jpg" 
+                     alt="Mango Mastani at Sujata Mastani">
+            </div>
+            <div class="card-content">
+                <h2 class="food-title">Mango Mastani</h2>
+                <p class="restaurant">Sujata Mastani</p>
+                
+                <div class="tag-container">
+                    <span class="tag tag-sweet"><i class="fas fa-ice-cream tag-icon"></i> Dessert Drink</span>
+                    <span class="tag tag-veg"><i class="fas fa-leaf tag-icon"></i> Vegetarian</span>
+                    <span class="tag"><i class="fas fa-history tag-icon"></i> Pune Original</span>
+                </div>
+                
+                <p class="food-description">
+                    Thick mango milkshake topped with vanilla ice cream, 
+                    dry fruits, and cherries. A Pune specialty named after Mastani.
+                </p>
+                <div class="details">
+                    <span class="rating"><i class="fas fa-star"></i> 4.5 (1,200+)</span>
+                    <span class="price">₹150-250</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" 
+                            onclick="window.open('https://maps.google.com?q=Sujata+Mastani+Pune')">
+                        <i class="fas fa-map-marker-alt"></i> Directions
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-bookmark"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pudachi Wadi - Enhanced -->
+        <div class="food-card">
+            <div class="food-image">
+                <img src="destinations\Photos\food_items\pudachi-wadi.jpg" 
+                     alt="Pudachi Wadi">
+            </div>
+            <div class="card-content">
+                <h3 class="food-title">Pudachi Wadi</h3>
+                <p class="restaurant">Bedekar Misal</p>
+                
+                <div class="tag-container">
+                    <span class="tag tag-spicy"><i class="fas fa-pepper-hot tag-icon"></i> Medium Spice</span>
+                    <span class="tag tag-veg"><i class="fas fa-leaf tag-icon"></i> Vegetarian</span>
+                    <span class="tag"><i class="fas fa-clock tag-icon"></i> Tea-time Snack</span>
+                </div>
+                
+                <p class="food-description">
+                    Spicy mint-stuffed rolls wrapped in chickpea flour dough, 
+                    steamed then fried to perfection. A classic Pune snack.
+                </p>
+                <div class="details">
+                    <span class="price">₹80-120 per plate</span>
+                    <span class="rating">⭐ 4.3 (950+)</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" 
+                            onclick="window.open('https://maps.google.com?q=Bedekar+Misal+Pune')">
+                        <i class="fas fa-map-marker-alt"></i> Directions
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-bookmark"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Puran Poli - Enhanced -->
+        <div class="food-card">
+            <div class="food-image">
+                <img src="destinations/photos/food_items/puran_poli.jpg" alt="Puran Poli">
+
+                     alt="Puran Poli">
+            </div>
+            <div class="card-content">
+                <h3 class="food-title">Puran Poli</h3>
+                <p class="restaurant">Shreemaya</p>
+                
+                <div class="tag-container">
+                    <span class="tag tag-sweet"><i class="fas fa-bread-slice tag-icon"></i> Sweet Flatbread</span>
+                    <span class="tag tag-veg"><i class="fas fa-leaf tag-icon"></i> Vegetarian</span>
+                    <span class="tag tag-seasonal"><i class="fas fa-calendar-alt tag-icon"></i> Festival Special</span>
+                </div>
+                
+                <p class="food-description">
+                    Sweet flatbread stuffed with lentil-jaggery filling, 
+                    a Maharashtrian festive delicacy served with ghee.
+                </p>
+                <div class="details">
+                    <span class="price">₹40-80 per piece</span>
+                    <span class="rating">⭐ 4.6 (1.1K+)</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" 
+                            onclick="window.open('https://maps.google.com?q=Shreemaya+Puran+Poli+Pune')">
+                        <i class="fas fa-map-marker-alt"></i> Directions
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-bookmark"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vada Pav - Enhanced -->
+        <div class="food-card">
+            <div class="food-image">
+                <img src="destinations/Photos/food_items/Screenshot 2025-04-17 023640.png" 
+                     alt="Vada Pav">
+            </div>
+            <div class="card-content">
+                <h3 class="food-title">Vada Pav</h3>
+                <p class="restaurant">JJ Garden Vada Pav</p>
+                
+                <div class="tag-container">
+                    <span class="tag tag-spicy"><i class="fas fa-pepper-hot tag-icon"></i> Spicy</span>
+                    <span class="tag tag-veg"><i class="fas fa-leaf tag-icon"></i> Vegetarian</span>
+                    <span class="tag"><i class="fas fa-bolt tag-icon"></i> Quick Bite</span>
+                </div>
+                
+                <p class="food-description">
+                    Spicy potato fritter sandwiched in a bun with chutneys. 
+                    Mumbai's iconic street food that's equally popular in Pune.
+                </p>
+                <div class="details">
+                    <span class="price">₹15-30 per piece</span>
+                    <span class="rating">⭐ 4.7 (2.5K+)</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" 
+                            onclick="window.open('https://maps.google.com?q=JJ+Garden+Vada+Pav+Pune')">
+                        <i class="fas fa-map-marker-alt"></i> Directions
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-bookmark"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Batata Bhaji - Enhanced -->
+        <div class="food-card">
+            <div class="food-image">
+                <img src="destinations\Photos\food_items\Screenshot 2025-04-17 023833.png" 
+                     alt="Batata Bhaji">
+            </div>
+            <div class="card-content">
+                <h3 class="food-title">Batata Bhaji</h3>
+                <p class="restaurant">Durga Cafe</p>
+                
+                <div class="tag-container">
+                    <span class="tag"><i class="fas fa-utensils tag-icon"></i> Side Dish</span>
+                    <span class="tag tag-veg"><i class="fas fa-leaf tag-icon"></i> Vegetarian</span>
+                    <span class="tag"><i class="fas fa-clock tag-icon"></i> Breakfast Item</span>
+                </div>
+                
+                <p class="food-description">
+                    Golden-fried potato fritters with chickpea flour, 
+                    flavored with turmeric and chili. Served with chutney.
+                </p>
+                <div class="details">
+                    <span class="price">₹40-60 per plate</span>
+                    <span class="rating">⭐ 4.4 (1.8K+)</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" 
+                            onclick="window.open('https://maps.google.com?q=Durga+Cafe+Pune')">
+                        <i class="fas fa-map-marker-alt"></i> Directions
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-bookmark"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bhakarwadi - Enhanced -->
+        <div class="food-card">
+            <div class="food-image">
+                <img src="destinations\Photos\food_items\Screenshot 2025-04-17 025249.png" 
+                     alt="Bhakarwadi">
+            </div>
+            <div class="card-content">
+                <h3 class="food-title">Bhakarwadi</h3>
+                <p class="restaurant">Chitale Bandhu</p>
+                
+                <div class="tag-container">
+                    <span class="tag tag-spicy"><i class="fas fa-pepper-hot tag-icon"></i> Mild Spice</span>
+                    <span class="tag tag-veg"><i class="fas fa-leaf tag-icon"></i> Vegetarian</span>
+                    <span class="tag"><i class="fas fa-gift tag-icon"></i> Takeaway Favorite</span>
+                </div>
+                
+                <p class="food-description">
+                    Crispy spiral snacks stuffed with spiced coconut and poppy seeds.
+                    Pune's iconic savory treat since 1950.
+                </p>
+                <div class="details">
+                    <span class="price">₹200-400 per box</span>
+                    <span class="rating">⭐ 4.8 (3.2K+)</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" 
+                            onclick="window.open('https://maps.google.com?q=Chitale+Bandhu+Baker+Pune')">
+                        <i class="fas fa-map-marker-alt"></i> Directions
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-bookmark"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- [Rest of your existing cards...] -->
+        <!-- Pandhra & Tamda Rassa Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src=" destinations\Photos\food_items\Screenshot 2025-04-17 023958.png"
+             alt="Pandhra & Tamda Rassa - Kolhapuri Chicken Curry"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/JrQZ0Wb.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Pandhra & Tamda Rassa</h3>
+        <p class="restaurant">Bramha Restaurant</p>
+        <p class="food-description">
+            Kolhapuri chicken curry duo - white (coconut-based) and red (spicy chili). 
+            Served with bhakri or rice.
+        </p>
+        <div class="details">
+            <span class="price">₹250-400 per thali</span>
+            <span class="rating">⭐ 4.6 (2.1K+)</span>
+        </div>
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Bramha+Restaurant+Kolhapur+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline">
+                <i class="fas fa-bookmark"></i> Save
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Kothimbir Wadi Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src=" destinations\Photos\food_items\Screenshot 2025-04-17 024058.png"
+             alt="Kothimbir Wadi - Cilantro Chickpea Cakes"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/5XwDQgF.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Kothimbir Wadi</h3>
+        <p class="restaurant">Aaswad</p>
+        <p class="food-description">
+            Steamed then fried cilantro cakes made with chickpea flour and spices,
+            a fragrant Maharashtrian snack served with chutney.
+        </p>
+        <div class="details">
+            <span class="price">₹90-150 per plate</span>
+            <span class="rating">⭐ 4.5 (1.3K+)</span>
+        </div>
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Aaswad+Restaurant+Dadar+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline">
+                <i class="fas fa-bookmark"></i> Save
+            </button>
+        </div>
+    </div>
+</div>
+        
+
+<!-- Bhel Puri Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src=" destinations\Photos\food_items\Screenshot 2025-04-17 024203.png"
+             alt="Crispy Bhel Puri from Gupta Bhel"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/JK7UWfA.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Bhel Puri</h3>
+        <p class="restaurant">Gupta Bhel (Shivajinagar)</p>
+        <p class="food-description">
+            Crispy puffed rice mixed with chutneys, onions, and sev.
+            Pune's iconic street food with perfect sweet-spicy balance.
+        </p>
+        <div class="details">
+            <span class="price">₹40-80 per plate</span>
+            <span class="rating">⭐ 4.6 (3.5K+)</span>
+        </div>
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Gupta+Bhel+Shivajinagar+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline">
+                <i class="fas fa-bookmark"></i> Save
+            </button>
+        </div>
+    </div>
+</div><!-- Kothimbir Wadi, Aamti, Sabudana Wada, Misal, etc. -->
+        <!-- Sabudana Wada Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src=" destinations\Photos\food_items\Screenshot 2025-04-17 024336.png" 
+             alt="Crispy Sabudana Wada from Hindavi Swarajya"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/9YQJz8L.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Sabudana Wada</h3>
+        <p class="restaurant">Hindavi Swarajya</p>
+        <p class="food-description">
+            Crispy golden wadas made with tapioca pearls, peanuts, and spices. 
+            A Maharashtrian fasting special that's delicious anytime!
+        </p>
+        <div class="details">
+            <span class="price">₹50-90 per plate (2 wadas)</span>
+            <span class="rating">⭐ 4.7 (1.8K+)</span>
+        </div>
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Hindavi+Swarajya+Gavthan+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline">
+                <i class="fas fa-bookmark"></i> Save
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Misal Pav Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src= " destinations\Photos\food_items\Screenshot 2025-04-17 024439.png"
+
+             alt="Spicy Misal Pav from Jogeshwari Misal"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/Jk5w3hE.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Misal Pav</h3>
+        <p class="restaurant">Jogeshwari Misal</p>
+        <p class="food-description">
+            Fiery Kolhapuri-style sprouted bean curry topped with farsan, 
+            served with soft pav and cooling curd. Pune's breakfast king!
+        </p>
+        <div class="details">
+            <span class="price">₹60-120 (mild to extra spicy)</span>
+            <span class="rating">⭐ 4.8 (4.2K+)</span>
+        </div>
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Jogeshwari+Misal+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline">
+                <i class="fas fa-bookmark"></i> Save
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Sol Kadhi Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src= " destinations\Photos\food_items\Screenshot 2025-04-17 024529.png"
+
+             alt="Refreshing Sol Kadhi - Kokum & Coconut Drink"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/mXJQZ2t.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Sol Kadhi</h3>
+        <p class="restaurant">Gomantak Boarding House</p>
+        <p class="food-description">
+            Cooling Konkani drink made with kokum and coconut milk, 
+            tempered with garlic and chili. Perfect with spicy seafood.
+        </p>
+        <div class="details">
+            <span class="price">₹60-100 per glass</span>
+            <span class="rating">⭐ 4.6 (1.9K+)</span>
+        </div>
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Gomantak+Boarding+House+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline">
+                <i class="fas fa-bookmark"></i> Save
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Zunka Bhakar Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src=" destinations\Photos\food_items\Screenshot 2025-04-17 024619.png" 
+             alt="Traditional Zunka Bhakar with Onion and Chili"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/VxJqN3a.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Zunka Bhakar</h3>
+        <p class="restaurant">Zhunka Bhakar Kendra (Govt.)</p>
+        <p class="food-description">
+            Maharashtra's rustic staple - spiced chickpea flour curry (zunka) 
+            served with jowar bhakri, raw onion, and green chili.
+        </p>
+        <div class="details">
+            <span class="price">₹25-50 per thali</span>
+            <span class="rating">⭐ 4.2 (3.1K+)</span>
+        </div>
+        
+        <!-- Location Selector -->
+        <select class="location-select" style="width:100%; margin:10px 0; padding:5px; border-radius:4px; border:1px solid #ddd;">
+            <option value="Shivajinagar">Shivajinagar Branch</option>
+            <option value="Hadapsar">Hadapsar Branch</option>
+            <option value="Kothrud">Kothrud Branch</option>
+        </select>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Zhunka+Bhakar+Kendra+Shivajinagar+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline">
+                <i class="fas fa-history"></i> Timings: 7AM-3PM
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Ukadiche Modak Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src=" destinations\Photos\food_items\Screenshot 2025-04-17 024706.png" 
+             alt="Traditional Ukadiche Modak with Ghee"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/7Q8Oa0k.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Ukadiche Modak</h3>
+        <p class="restaurant">Shreemaya</p>
+        <p class="food-description">
+            Steamed rice flour dumplings stuffed with jaggery-coconut filling, 
+            traditionally prepared during Ganesh Chaturthi. Served warm with ghee.
+        </p>
+        <div class="details">
+            <span class="price">₹80-150 per plate (5 pieces)</span>
+            <span class="rating">⭐ 4.7 (2.4K+)</span>
+        </div>
+        
+        <!-- Seasonal Availability -->
+        <div style="background:#fff8e1; padding:5px; border-radius:4px; margin:8px 0; font-size:0.8rem;">
+            <i class="fas fa-calendar-alt" style="color:#ff9800;"></i>
+            <strong>Seasonal:</strong> Best during Aug-Oct (Ganeshotsav)
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Shreemaya+Ukadiche+Modak+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline">
+                <i class="fas fa-info-circle"></i> Recipe Tip
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Thalipeeth Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src= " destinations\Photos\food_items\Screenshot 2025-04-17 024743.png"
+             alt="Crispy Thalipeeth with White Butter"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/8zJQY9a.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Thalipeeth</h3>
+        <p class="restaurant">Aaswad (Dadar)</p>
+        <p class="food-description">
+            Savory multigrain pancake made with bajra, jowar and chickpea flour, 
+            flavored with onions, coriander and spices. Served with homemade white butter.
+        </p>
+        
+        <!-- Nutrition Badge -->
+        <div style="display:flex; gap:8px; margin:10px 0; flex-wrap:wrap;">
+            <span style="background:#e8f5e9; padding:3px 8px; border-radius:12px; font-size:0.7rem;">
+                <i class="fas fa-heart" style="color:#4caf50;"></i> High Fiber
+            </span>
+            <span style="background:#fff3e0; padding:3px 8px; border-radius:12px; font-size:0.7rem;">
+                <i class="fas fa-seedling" style="color:#8d6e63;"></i> Multigrain
+            </span>
+        </div>
+        
+        <div class="details">
+            <span class="price">₹60-90 per plate (2 pieces)</span>
+            <span class="rating">⭐ 4.5 (1.6K+)</span>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Aaswad+Restaurant+Dadar+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline" onclick="showThalipeethTip()">
+                <i class="fas fa-lightbulb"></i> Pro Tip
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function showThalipeethTip() {
+    alert("Order 'Taak' (spiced buttermilk) with your thalipeeth for perfect digestion!");
+}
+</script>
+
+<!-- Bharli Wangi Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src=" destinations\Photos\food_items\Screenshot 2025-04-17 024827.png"
+
+             alt="Stuffed Baby Eggplants in Peanut-Coconut Gravy"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/JK7UWfA.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Bharli Wangi</h3>
+        <p class="restaurant">Sukanta</p>
+        <p class="food-description">
+            Baby eggplants stuffed with spiced peanut-coconut masala, 
+            cooked in traditional Maharashtrian style. Best enjoyed with jowar bhakri.
+        </p>
+        
+        <!-- Spice Level Indicator -->
+        <div style="margin:8px 0;">
+            <span style="font-size:0.8rem; color:#666;">Spice Level: </span>
+            <span style="color:#ff6b6b;">🌶️🌶️</span>
+            <span style="font-size:0.8rem; color:#666;"> (Medium)</span>
+        </div>
+        
+        <div class="details">
+            <span class="price">₹120-180 per thali</span>
+            <span class="rating">⭐ 4.4 (1.2K+)</span>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Sukanta+Restaurant+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline" onclick="showBharliWangiTip()">
+                <i class="fas fa-utensils"></i> Serving Tip
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function showBharliWangiTip() {
+    alert("For best flavor, mix the stuffed eggplant with the peanut gravy before eating!");
+}
+</script>
+
+<!-- Surali Wadi Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src= " destinations\Photos\food_items\Screenshot 2025-04-17 024903.png"
+             alt="Steamed Surali Wadi with Coconut Chutney"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/9YQJz8L.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Surali Wadi</h3>
+        <p class="restaurant">Shreemaya</p>
+        <p class="food-description">
+            Spiced chickpea flour rolls steamed in banana leaves, 
+            served with fresh coconut chutney. A healthy Maharashtrian snack.
+        </p>
+        
+        <!-- Cooking Style Indicator -->
+        <div style="background:#e3f2fd; padding:5px; border-radius:4px; margin:8px 0; font-size:0.8rem;">
+            <i class="fas fa-leaf" style="color:#4caf50;"></i>
+            <strong>Traditional:</strong> Steamed in banana leaves for aroma
+        </div>
+        
+        <div class="details">
+            <span class="price">₹80-120 per plate (4 pieces)</span>
+            <span class="rating">⭐ 4.3 (980+)</span>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Shreemaya+Surali+Wadi+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline" onclick="showSuraliTip()">
+                <i class="fas fa-info-circle"></i> Did You Know?
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function showSuraliTip() {
+    alert("The name 'Surali' comes from the Marathi word for rolling - these are rolled before steaming!");
+}
+</script>
+<!-- Kachhi Dabeli Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src=" destinations\Photos\food_items\Screenshot 2025-04-17 024947.png"
+
+             alt="Kachhi Dabeli - Spicy Potato Stuffed Bun"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/JrQZ0Wb.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Kachhi Dabeli</h3>
+        <p class="restaurant">Gujarali Dabeli Center (FC Road)</p>
+        <p class="food-description">
+            Spicy-sweet potato mash stuffed in a bun with tamarind chutney, 
+            garlic paste, pomegranate, and crunchy sev. A Kutchi street food gem in Pune!
+        </p>
+        
+        <!-- Special Feature Badge -->
+        <div style="background:#fff3e0; padding:5px; border-radius:4px; margin:8px 0; font-size:0.8rem;">
+            <i class="fas fa-pepper-hot" style="color:#e65100;"></i>
+            <strong>Signature:</strong> Double-roasted with butter for extra crispness
+        </div>
+        
+        <div class="details">
+            <span class="price">₹40-80 per piece</span>
+            <span class="rating">⭐ 4.6 (1.7K+)</span>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Gujarali+Dabeli+Center+FC+Road+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline" onclick="showDabeliTip()">
+                <i class="fas fa-lightbulb"></i> Pro Tip
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function showDabeliTip() {
+    alert("Ask for 'lasun chutney extra' for an authentic Kutch-style garlic kick!");
+}
+</script>
+
+
+<!-- Shrewsbury Biscuits Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src= " destinations\Photos\food_items\Screenshot 2025-04-17 025049.png"
+             alt="Shrewsbury Biscuits - Buttery British-Indian Shortbread"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/JrQZ0Wb.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Shrewsbury Biscuits</h3>
+        <p class="restaurant">Kayani Bakery (East Street)</p>
+        <p class="food-description">
+            Classic British-Indian shortbread cookies with a crisp, buttery texture, 
+            flavored with vanilla and citrus zest. A Pune teatime legacy since 1955.
+        </p>
+        
+        <!-- Historical Badge -->
+        <div style="background:#e8f5e9; padding:5px; border-radius:4px; margin:8px 0; font-size:0.8rem;">
+            <i class="fas fa-history" style="color:#5d4037;"></i>
+            <strong>Colonial Legacy:</strong> Adapted from 19th-century British recipes
+        </div>
+        
+        <div class="details">
+            <span class="price">₹200-350 per box</span>
+            <span class="rating">⭐ 4.7 (2.3K+)</span>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Kayani+Bakery+East+Street+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline" onclick="showShrewsburyTip()">
+                <i class="fas fa-coffee"></i> Pairing Tip
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function showShrewsburyTip() {
+    alert("Best enjoyed with Irani chai or filter coffee for a perfect Pune-style breakfast!");
+}
+</script>
+
+<!-- Sudamache Pohe Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src=" destinations\Photos\food_items\Screenshot 2025-04-17 025204.png"
+             alt="Sudamache Pohe - Fluffy Poha with Peanuts"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/VxJqN3a.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Sudamache Pohe</h3>
+        <p class="restaurant">Shree Krishna Bhuvan (Narayan Peth)</p>
+        <p class="food-description">
+            Legendary fluffy poha cooked with peanuts, curry leaves, and a secret spice blend, 
+            served with crunchy farsan and fresh coconut. A 50-year-old Pune breakfast institution.
+        </p>
+        
+        <!-- Timing Badge -->
+        <div style="background:#fff3e0; padding:5px; border-radius:4px; margin:8px 0; font-size:0.8rem;">
+            <i class="fas fa-clock" style="color:#e65100;"></i>
+            <strong>Early Bird Special:</strong> 6:30AM - 10:30AM (sells out fast!)
+        </div>
+        
+        <div class="details">
+            <span class="price">₹40-80 per plate</span>
+            <span class="rating">⭐ 4.8 (3.4K+)</span>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Shree+Krishna+Bhuvan+Narayan+Peth+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline" onclick="showSudamaTip()">
+                <i class="fas fa-user-secret"></i> Insider Tip
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function showSudamaTip() {
+    alert("Ask for 'kanda pohe' version if you want onions, or 'nimbu mirchi' for extra tangy-spicy kick!");
+}
+</script>
+<!-- Pithla Bhakri Card -->
+<div class="food-card">
+    <div class="food-image">
+        <img src=" destinations\Photos\food_items\Screenshot 2025-04-17 025332.png"
+             alt="Pithla Bhakri - Rustic Maharashtrian Meal"
+             width="800"
+             height="600"
+             loading="lazy"
+             onerror="this.src='https://i.imgur.com/8zJQY9a.jpg'">
+    </div>
+    <div class="card-content">
+        <h3 class="food-title">Pithla Bhakri</h3>
+        <p class="restaurant">Zhunka Bhakar Kendra (Multiple Locations)</p>
+        <p class="food-description">
+            Spiced chickpea flour curry (pithla) served with rustic jowar bhakri, 
+            raw onion, and green chili. Maharashtra's ultimate comfort food.
+        </p>
+        
+        <!-- Nutrition Badge -->
+        <div style="background:#e8f5e9; padding:5px; border-radius:4px; margin:8px 0; font-size:0.8rem;">
+            <i class="fas fa-heart" style="color:#4caf50;"></i>
+            <strong>Healthy Choice:</strong> Gluten-free & protein-rich
+        </div>
+        
+        <div class="details">
+            <span class="price">₹50-90 per thali</span>
+            <span class="rating">⭐ 4.4 (2.7K+)</span>
+        </div>
+        
+        <!-- Location Selector -->
+        <select class="location-select" style="width:100%; margin:10px 0; padding:5px; border-radius:4px; border:1px solid #ddd;">
+            <option value="Shivajinagar">Shivajinagar Branch</option>
+            <option value="Hadapsar">Hadapsar Branch</option>
+            <option value="Kothrud">Kothrud Branch</option>
+        </select>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" 
+                    onclick="window.open('https://maps.google.com?q=Zhunka+Bhakar+Kendra+Shivajinagar+Pune')">
+                <i class="fas fa-map-marker-alt"></i> Directions
+            </button>
+            <button class="btn btn-outline" onclick="showPithlaTip()">
+                <i class="fas fa-utensils"></i> Eating Tip
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function showPithlaTip() {
+    alert("Crush green chili and onion into the pithla for maximum flavor!");
+}
+</script>
+
+
+    </div>
+</body>
+</html>

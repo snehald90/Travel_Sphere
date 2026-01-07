@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <link rel="stylesheet" href="chatbot.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Sphere - Your Complete Travel Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    z-index: 9999;
+    background: var(--primary);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.mode-toggle:hover {
+    background: var(--secondary);
+}
+
+.dark-mode {
+    --light: #1a1a1a;
+    --dark: #f8f9fa;
+    --primary: #4895ef;
+    --primary-light: #4cc9f0;
+    --secondary: #7209b7;
+    --accent: #f72585;
+    background-color: #121212;
+    color: var(--dark);
+}
+
+.dark-mode body,
+.dark-mode .contact-card,
+.dark-mode .contact-form {
+    background-color: #1e1e1e;
+    color: var(--dark);
+}
+
+.dark-mode .form-control {
+    background-color: #2c2c2c;
+    color: var(--dark);
+    border-color: #444;
+}
+
+.dark-mode .form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.4);
+}
+
+        .scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  z-index: 1000;
+  width: 0;
+  transition: width 0.1s ease;
+}
+        /* @import './variables.css'; */
+        /* CSS Reset and Base Styles */
+        :root {
+    --primary: #3a7bd5;
+    --secondary: #00d2ff;
+    --accent: #ff6b6b;
+    --danger: #dc3545;
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+
+       /* Header Styles */
+header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 1rem 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px; /* Add padding to prevent edge sticking */
+    display: flex;
+    justify-content: space-between; /* Ensures logo left, nav right */
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    margin-left: -200px; 
+}
+
+
+.logo i {
+    margin-right: 10px;
+    color: var(--accent);
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    gap: 15px; /* Better spacing between links */
+}
+
+nav ul li {
+    margin-left: 20px;
+    position: relative;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+}
+
+/* Lift up hover effect */
+nav ul li a:hover {
+    transform: translateY(-4px);
+}
+
+/* Hide background hover effect */
+nav ul li a:hover {
+    background: none;
+}
+
+/* Mobile menu */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+        /* Hero Section */
+
+        .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+        .hero {
+    background: #6e8fad url('hero.jpg') no-repeat center center/cover;
+    height: 400px; /* Reduced from 500px since we removed the search box */
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-attachment: fixed;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.3) 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: particleMove 100s linear infinite;
+  z-index: 1;
+}
+
+@keyframes particleMove {
+  from { background-position: 0 0; }
+  to { background-position: 1000px 1000px; }
+}
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+    color: white;
+    /* Added margin-top to vertically center better */
+    margin-top: -30px;
+}
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, 
+    #ffffff, 
+    rgba(255,255,255,0.8), 
+    #ffffff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 100%;
+  animation: gradientShift 8s ease infinite;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 0; /* Removed extra bottom margin */
+    max-width: 600px;
+}
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+        }
+
+        .search-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .search-tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+               /* Buttons */
+
+               .btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: rgba(255,255,255,0.1);
+  transition: width 0.4s ease;
+  z-index: -1;
+}
+
+               .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+  overflow: hidden;
+  z-index: 1;
+        }
+        .btn:hover::before {
+  width: 100%;
+}
+        .btn:hover {
+            background: #2c5fb3;
+            transform: translateY(-2px);
+        }
+        .btn:hover::before {
+  width: 100%;
+}
+
+        /* Add the new button styles here */
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Rest of your existing CSS */
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background: #e05555;
+        }
+        .floating-cta {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+  /* Replace existing ::after styles with these */
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  transition: width 0.6s ease;
+}
+.section-title.in-view h2::after {
+  width: 80px;
+}
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Destination Grid */
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .destination-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+            var(--primary), 
+            var(--secondary), 
+            var(--accent));
+            z-index: -1;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+}
+        .destination-card {
+            transition: all 0.5s ease;
+            transform: translateY(0);
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+             background: white;
+            border-radius: 8px;
+            overflow: hidden;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s forwards;
+        }
+html {
+  scroll-behavior: smooth;
+}
+
+.destination-card:hover::before {
+  opacity: 1;
+  animation: rotateGradient 4s linear infinite;
+}
+
+@keyframes rotateGradient {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        .card-img::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0) 0%, 
+    rgba(255,255,255,0.3) 50%, 
+    rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  z-index: 1;
+}
+
+        .card-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+        .card-img img.loaded {
+  opacity: 1;
+}
+        .destination-card:hover .card-img img {
+            transform: scale(1.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-body h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .card-body p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .card-meta span {
+            display: flex;
+            align-items: center;
+        }
+
+        .card-meta i {
+            margin-right: 5px;
+        }
+
+        .rating {
+            color: #ffc107;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+            padding: 0 10px;
+            margin-bottom: 15px;
+        }
+
+        .filter-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-option {
+            background: #f1f1f1;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-option:hover, .filter-option.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: linear-gradient(135deg, var(--dark), #34495e);
+            color: white;
+            padding: 60px 0;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: var(--font-secondary);
+        }
+
+        .testimonial-text {
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-family: inherit;
+        }
+
+        .newsletter-form button {
+            padding: 15px 25px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 5px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input {
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            
+            .newsletter-form button {
+                border-radius: 4px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav ul {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                background: var(--dark);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                padding: 15px 0;
+                z-index: 99;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 0;
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 10px 20px;
+                position: relative;
+            }
+            nav ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+nav ul li a:hover::after {
+  width: 100%;
+}
+            
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                height: 400px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.5rem;
+            }
+            
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-0 {
+            margin-bottom: 0 !important;
+        }
+
+        .mt-0 {
+            margin-top: 0 !important;
+        }
+
+        .py-0 {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+
+        /* Neon Glow Effect - Add this to your existing CSS */
+.destination-card.glow {
+    position: relative;
+    z-index: 1;
+    animation: neonGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neonGlow {
+    from {
+        box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px rgb(102, 156, 204), 0 0 20px rgb(103, 156, 202);
+    }
+    to {
+        box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px rgb(102, 155, 201), 0 0 40px rgb(102, 156, 203);
+    }
+}
+
+/* This ensures the glow doesn't affect layout */
+.destination-card {
+    transition: all 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Add this to your CSS */
+nav ul li a i.fa-utensils {
+    margin-right: 5px;
+}
+nav ul li a[href="food_items.html"]:hover {
+    background: #FF6B6B;
+    color: white !important;
+}
+    </style>
+</head>
+<div class="scroll-progress"></div>
+<body>
+ 
+    <div class="mode-toggle" onclick="toggleMode()">
+        <i id="mode-icon" class="fas fa-moon"></i>
+      </div> 
+    <!-- Header -->
+<header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <div class="header-container">
+        <div class="logo">
+            <i class="fas fa-map-marked-alt"></i>
+            <span>Travel Sphere</span>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav>
+            <ul id="mainMenu">
+                <li class="nav-item">
+                    <a class="nav-link" href="#home" style="color: #fffffe; font-weight: bold;">
+                      <i class="fas fa-home me-2"></i> Home
+                    </a>
+                  </li>       
+                  <li class="nav-item">
+                    <a class="nav-link" href="#destinations" style="color: #f8f8f8; font-weight: bold;">
+                      <i class="fas fa-map-marked-alt me-2"></i> Destinations
+                    </a>
+                  </li>
+        
+                  <li class="nav-item">
+                    <a 
+    class="nav-link" 
+    href="https://docs.google.com/forms/d/e/1FAIpQLSce0jwA-Fon3ZOzqq7q0v-4qKk4aEMVNQjay46k8mZ6BeB0XQ/viewform?usp=header" 
+    target="_blank" 
+    style="color: #f7f7ef; font-weight: bold;">
+    <i class="fas fa-hotel me-2"></i> Stays
+  </a>
+                  </li>
+                  
+                <li class="nav-item">
+                    <a class="nav-link" href="shoppingzone.html" style="color: #f5f4ed; font-weight: bold;">
+                      <i class="fas fa-shopping-bag me-2"></i> Shopping Zone
+                    </a>
+                  </li>
+                <li><a href="food_items.html" style="color: #fffd6b; font-weight: bold;">
+                    <i class="fas fa-utensils"></i> Food Trail
+                </a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html" style="color: #f1f1f1; font-weight: bold;">
+                      <i class="fas fa-envelope me-2"></i> Contact
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="login.html" style="color: #f1efe6; font-weight: bold;">
+                      <i class="fas fa-user-plus"></i> Sign In
+                    </a>
+                  </li>
+                <!-- Add these two list items here -->
+                <li id="userMenu" style="display:none; position: relative;">
+                    <a href="#" id="profileIcon"><i class="fas fa-user-circle"></i></a>
+                    <ul id="profileDropdown" style="display: none; position: absolute; top: 30px; right: 0; background: white; color: black; list-style: none; border-radius: 6px; overflow: hidden;">
+                        <li><a href="#">My Profile</a></li>
+                        <li><a href="#" onclick="logout()">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+   <!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="hero-content">
+        <h1>Discover the Soul of Pune</h1>
+        <p>Plan your perfect trip with our comprehensive travel guide to Pune's rich culture, heritage, and adventure spots.</p>
+        <!-- Search box removed here -->
+    </div>
+</section>
+    <!-- Main Content -->
+    <main>
+        <!-- Popular Destinations -->
+        <section class="section" id="destinations">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Popular Destinations in Pune</h2>
+                    <p>Explore the most visited and highly rated places in Pune that showcase its rich heritage and vibrant culture.</p>
+                </div>
+                
+                <!-- <div class="filter-section">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <div class="filter-title">Categories</div>
+                            <div class="filter-options">
+                                <div class="filter-option active">All</div>
+                                <div class="filter-option">Historical</div>
+                                <div class="filter-option">Cultural</div>
+                                <div class="filter-option">Nature</div>
+                                <div class="filter-option">Adventure</div>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <div class="filter-title">Budget</div>
+                            <div class="filter-options">
+                                <div class="filter-option active">Any</div>
+                                <div class="filter-option">Free</div>
+                                <div class="filter-option">Under ₹100</div>
+                                <div class="filter-option">Under ₹500</div>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <div class="filter-title">Best Time to Visit</div>
+                            <div class="filter-options">
+                                <div class="filter-option active">Any Time</div>
+                                <div class="filter-option">Morning</div>
+                                <div class="filter-option">Afternoon</div>
+                                <div class="filter-option">Evening</div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </section>
+                <div class="destination-grid">
+                    <!-- Destination Card 1 -->
+                    <div class="destination-card">
+                        <div class="card-img">
+                            <img src="https://www.adotrip.com/public/images/areas/master_images/5c6a5fb858f94-Shaniwar_Wada_Attractions.jpg" alt="Shaniwar Wada">
+                        </div>
+                        <div class="card-body">
+                            <h3>Shaniwar Wada</h3>
+                            <p>The historic fortification built by the Peshwas in 1732, known for its architectural grandeur.</p>
+                            <div class="card-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Central Pune</span>
+                                <span><i class="fas fa-rupee-sign"></i> ₹25 entry</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="fas fa-clock"></i> 9AM-5:30PM</span>
+                                <span class="rating"><i class="fas fa-star"></i> 4.7</span>
+                            </div>
+                            <div class="card-actions">
+                                <a href="destinations/shanivar_wada.html" class="btn">View Details</a>
+                            <button class="btn btn-block">Add to Itinerary</button>
+                        </div>
+                    </div>
+                </div>
+                    <!-- Destination Card 2 -->
+                    <div class="destination-card">
+                        <div class="card-img">
+                            <img src="https://punetourism.co.in/images/places-to-visit/headers/sinhagad-fort-pune-tourism-entry-fee-timings-holidays-reviews-header.jpg" alt="Sinhagad Fort">
+                        </div>
+                        <div class="card-body">
+                            <h3>Sinhagad Fort</h3>
+                            <p>Ancient hill fortress with panoramic views, famous for its historical significance and trekking trails.</p>
+                            <div class="card-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> 30km SW</span>
+                                <span><i class="fas fa-rupee-sign"></i> Free</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="fas fa-clock"></i> Open 24 hours</span>
+                                <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+                            </div>
+                            <div class="card-actions">
+                                <a href="destinations/sinhagad_fort.html" class="btn">View Details</a>
+                            <button class="btn btn-block">Add to Itinerary</button>
+                        </div>
+                    </div>
+                </div>  
+                    <!-- Destination Card 3 -->
+              
+
+                    <!-- Aga Khan Palace Card -->
+                    <div class="destination-card">
+                        <div class="card-img">
+                            <img src="destinations\Photos\aga_khan_palace\Screenshot 2025-04-11 204227.png" alt="Aga Khan Palace">
+                        </div>
+                        <div class="card-body">
+                            <h3>Aga Khan Palace</h3>
+                            <p>Majestic palace with Italian arches, significant for its connection to Mahatma Gandhi.</p>
+                            <div class="card-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Yerwada</span>
+                                <span><i class="fas fa-rupee-sign"></i> ₹25 entry</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="fas fa-clock"></i> 9AM-5:30PM</span>
+                                <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+                            </div>
+                            <div class="card-actions">
+                                <a href="destinations/aga-khan-palace.html" class="btn">View Details</a>
+                                <button class="btn btn-outline">Add to Itinerary</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ... next destination cards ... -->
+                    
+                    <!-- Destination Card 4 -->
+                    <div class="destination-card">
+                        <div class="card-img">
+                            <img src="https://as2.ftcdn.net/v2/jpg/05/28/36/77/1000_F_528367769_C1jxw1xnHhwqR7UZZXnNslEitxY9iN76.jpg"Dagdusheth Temple">
+                        </div>
+                        <div class="card-body">
+                            <h3>Dagdusheth Temple</h3>
+                            <p>Renowned Hindu temple dedicated to Lord Ganesha, famous for its gold-plated dome.</p>
+                            <div class="card-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Budhwar Peth</span>
+                                <span><i class="fas fa-rupee-sign"></i> Free</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="fas fa-clock"></i> 6AM-11PM</span>
+                                <span class="rating"><i class="fas fa-star"></i> 4.6</span>
+                            </div>
+                            <div class="card-actions">
+                                <a href="destinations/dagdushet_ganpati.html" class="btn">View Details</a>
+                            <button class="btn btn-block">Add to Itinerary</button>
+                        </div>
+                    </div>
+                </div>
+                    <!-- Destination Card 5 -->
+                    <div class="destination-card">
+                        <div class="card-img">
+                            <img src="https://tse2.mm.bing.net/th?id=OIP._38Yw7SdY55Ak5Nqs0W3-gHaDt&pid=Api&P=0&h=180" alt="Khadakwasla Dam">
+                        </div>
+                        <div class="card-body">
+                            <h3>Khadakwasla Dam</h3>
+                            <p>Scenic dam on the Mutha River offering beautiful sunset views and water activities.</p>
+                            <div class="card-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> 20km SW</span>
+                                <span><i class="fas fa-rupee-sign"></i> Free</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="fas fa-clock"></i> 6AM-6PM</span>
+                                <span class="rating"><i class="fas fa-star"></i> 4.4</span>
+                            </div>
+                            <div class="card-actions">
+                                <a href="destinations/khadakwasla_dam.html" class="btn">View Details</a>
+                            <button class="btn btn-block">Add to Itinerary</button>
+                        </div>
+                    </div>
+                </div>
+                    <!-- Destination Card 6 -->
+                    <div class="destination-card">
+                        <div class="card-img">
+                            <img src="https://tse1.mm.bing.net/th?id=OIP.G1Qwzl4iGMbPRU9EmD2cFwHaEa&pid=Api&P=0&h=180" alt="Rajiv Gandhi Zoo">
+                        </div>
+                        <div class="card-body">
+                            <h3>Rajiv Gandhi Zoo</h3>
+                            <p>Well-maintained zoological park with diverse animal species and a reptile house.</p>
+                            <div class="card-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Katraj</span>
+                                <span><i class="fas fa-rupee-sign"></i> ₹50 entry</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="fas fa-clock"></i> 9:30AM-6PM</span>
+                                <span class="rating"><i class="fas fa-star"></i> 4.2</span>
+                            </div>
+                            <div class="card-actions">
+                            <a href="destinations/rajiv_gandhi.html" class="btn">View Details</a>
+                            <button class="btn btn-block">Add to Itinerary</button>
+                        </div>
+                    </div>
+                </div>
+                     <!-- Destination Card 7 -->                  
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\visapur_fort\Visapur.jpg" alt="Visapur Fort">
+    </div>
+    <div class="card-body">
+        <h3>Visapur Fort</h3>
+        <p>Historic hill fort with panoramic views, popular for trekking and its connection to Maratha history.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Near Lonavala</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> Sunrise-Sunset</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.7</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/visapur-fort.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+
+
+
+  <!-- Destination card 8 -->
+
+
+
+  <div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\shivneri_fort\shivneri.jpg" alt="Shivneri Fort">
+    </div>
+    <div class="card-body">
+        <h3>Shivneri Fort</h3>
+        <p>Birthplace of Chhatrapati Shivaji Maharaj, this hill fort offers stunning views and historical significance.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Junnar</span>
+            <span><i class="fas fa-rupee-sign"></i> ₹25 entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 6AM-6PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.6</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/shivneri-fort.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- destination card 9 -->
+
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\raigad_fort\raigad_fort.jpg" alt="Raigad Fort">
+    </div>
+    <div class="card-body">
+        <h3>Raigad Fort</h3>
+        <p>Capital fort of Chhatrapati Shivaji's kingdom, featuring majestic architecture and breathtaking views.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Mahad</span>
+            <span><i class="fas fa-rupee-sign"></i> ₹25 entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 8AM-6PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/raigad-fort.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- destination card 10 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\rajgad_fort\rajgad.jpg" alt="Rajgad Fort">
+    </div>
+    <div class="card-body">
+        <h3>Rajgad Fort</h3>
+        <p>Former capital of the Maratha Empire, this majestic fort offers historical significance, architectural marvels, and breathtaking views.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune District</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> Sunrise-Sunset</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/rajgad-fort.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- destination card 11 -->
+
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\lohagad_fort\lohagad.jpg" alt="Lohagad Fort">
+    </div>
+    <div class="card-body">
+        <h3>Lohagad Fort</h3>
+        <p>Ancient hill fortress with impressive fortifications and breathtaking views of the Sahyadris.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Near Lonavala</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> Sunrise-Sunset</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.6</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/lohagad-fort.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 12 -->
+
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\vasota_fort\vasota.jpg" alt="Vasota Fort">
+    </div>
+    <div class="card-body">
+        <h3>Vasota Fort</h3>
+        <p>Remote jungle fort in Sahyadris with thrilling boat ride and wildlife encounters, offering pristine wilderness experience.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Satara District</span>
+            <span><i class="fas fa-rupee-sign"></i> Permit required</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 6AM-6PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/vasota-fort.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+
+<!-- destination card 13 -->
+
+
+<!-- destination card 14 -->
+
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\rajmanchi_fort\rajmanchi.jpg" alt="Rajmanchi Fort">
+    </div>
+    <div class="card-body">
+        <h3>Rajmanchi Fort</h3>
+        <p>Hidden gem of Sahyadris with ancient rock-cut caves and stunning valley views, offering peaceful trekking experience.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Near Bhor, Pune</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> Sunrise-Sunset</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/rajmanchi-fort.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- destination card 15 -->
+
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\jejuri_fort\jejuri.jpg" alt="Jejuri Fort">
+    </div>
+    <div class="card-body">
+        <h3>Jejuri Fort</h3>
+        <p>Sacred hill fort temple dedicated to Lord Khandoba, famous for its vibrant yellow turmeric festival and steep climb.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Jejuri, Pune District</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 6AM-8PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.6</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/jejuri-fort.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 16 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\raja_dinkar_kelakar_meuseum\kelakar_meuseum.jpg" alt="Raja Dinkar Kelkar Museum">
+    </div>
+    <div class="card-body">
+        <h3>Raja Dinkar Kelkar Museum</h3>
+        <p>Treasure trove of Indian craftsmanship featuring over 20,000 artifacts including musical instruments, sculptures, and antique household items.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune City Center</span>
+            <span><i class="fas fa-rupee-sign"></i> ₹50 entry fee</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 9:30AM-5:30PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/kelkar-museum.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+
+<!-- destination card 17 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\vishram_bagh_wada\vishram_wada.webp" alt="Vishrambaug Wada">
+    </div>
+    <div class="card-body">
+        <h3>Vishrambaug Wada</h3>
+        <p>Historic mansion showcasing Pune's royal heritage with exquisite Peshwa-era architecture.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Sadashiv Peth, Pune</span>
+            <span><i class="fas fa-rupee-sign"></i> ₹25 entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 10AM-5PM (Closed Mondays)</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/vishrambaug-wada.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 18 -->
+
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\national_war_memeorial\war_memorial.jpg" alt="National War Memorial Southern Command">
+    </div>
+    <div class="card-body">
+        <h3>National War Memorial Southern Command</h3>
+        <p>A solemn tribute to Indian soldiers who sacrificed their lives in various wars, featuring impressive architecture and peaceful surroundings.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune Cantonment</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 9:00 AM - 6:30 PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.6</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/national-war-memorial-southern-command.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 19 -->
+
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\blades_to_glory_cricket_meuseum\blades_to_glory.webp" alt="Blades of Glory Cricket Museum">
+    </div>
+    <div class="card-body">
+        <h3>Blades of Glory Cricket Museum</h3>
+        <p>World's largest cricket museum showcasing rare memorabilia, artifacts, and the history of cricket.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune, Maharashtra</span>
+            <span><i class="fas fa-rupee-sign"></i> ₹200-500</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 10:00 AM - 6:00 PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/blades_of_glory.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 20 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\chh._shivaji_maharaj_mesuem\images (50).jpg" alt="Shree Chhatrapati Shivaji Maharaj Museum">
+    </div>
+    <div class="card-body">
+        <h3>Shree Chhatrapati Shivaji Maharaj Museum</h3>
+        <p>Premier museum showcasing the life, weapons, and legacy of the great Maratha warrior king, Chhatrapati Shivaji Maharaj.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune City</span>
+            <span><i class="fas fa-rupee-sign"></i> ₹20 entry fee</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 10AM-5PM (Closed Mondays)</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/shivaji-museum.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+
+<!-- destination card 21 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\parvati_hills\paravti_hills.webp" alt="Parvati Hills">
+    </div>
+    <div class="card-body">
+        <h3>Parvati Hills</h3>
+        <p>Scenic hilltop with ancient temples, offering panoramic views of Pune city and rich historical significance.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune, Maharashtra</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 6:00 AM - 8:00 PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/parvati-hills.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 22 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\alandi\alandi.webp" alt="Alandi">
+    </div>
+    <div class="card-body">
+        <h3>Alandi</h3>
+        <p>Sacred pilgrimage town known for the Samadhi of Sant Dnyaneshwar, attracting devotees and spiritual seekers.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune District</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 6:00 AM - 8:00 PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/alandi.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 23 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\dehu_temple\dehu.jpg" alt="Dehu Temple">
+    </div>
+    <div class="card-body">
+        <h3>Dehu Temple</h3>
+        <p>Sacred pilgrimage site dedicated to Sant Tukaram, a revered saint of the Bhakti movement, known for its spiritual ambiance and annual pilgrimage.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Dehu, Pune District</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 5:30 AM - 9:00 PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/dehu-temple.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 24 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\chaturshringi_temple\chaturshringi_temple.jpg" alt="Chaturshringi Temple">
+    </div>
+    <div class="card-body">
+        <h3>Chaturshringi Temple</h3>
+        <p>Ancient hilltop temple dedicated to Goddess Chaturshringi, known for its scenic location and Navratri celebrations.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 6:00 AM - 9:00 PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/chaturshringi-temple.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 25 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\pataleshwar_temple\pataleshwar.jpg" alt="Pataleshwar Cave Temple">
+    </div>
+    <div class="card-body">
+        <h3>Pataleshwar Cave Temple</h3>
+        <p>8th-century rock-cut temple dedicated to Lord Shiva, featuring impressive stone carvings and a peaceful underground atmosphere.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune, Maharashtra</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 8:00 AM - 5:30 PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/pataleshwar-cave-temple.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 26 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\arai_hills\arai.jpg" alt="ARAI Hills">
+    </div>
+    <div class="card-body">
+        <h3>ARAI Hills</h3>
+        <p>Scenic hill range with trekking trails, offering panoramic views of Pune and home to the Automotive Research Association.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune, Maharashtra</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 6:00 AM - 6:00 PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.3</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/arai-hills.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 27 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\bimashankar_temple\bimashankar.jpg" alt="Bhimashankar Temple">
+    </div>
+    <div class="card-body">
+        <h3>Bhimashankar Temple</h3>
+        <p>One of the 12 Jyotirlingas, this sacred Shiva temple is nestled in the Sahyadri mountains with rich biodiversity.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune District</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 4:30AM-9:30PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.8</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/bhimashankar-temple.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 28 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\lonavala\lonavala.jpg" alt="Lonavala">
+    </div>
+    <div class="card-body">
+        <h3>Lonavala</h3>
+        <p>Popular hill station in the Sahyadri ranges, famous for its scenic valleys, waterfalls, and chikki snacks.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Pune District</span>
+            <span><i class="fas fa-rupee-sign"></i> Free access</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> All day</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.6</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/lonavala.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 29 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\mahabaleshwar\mahabaleshwar.jpg" alt="Mahabaleshwar">
+    </div>
+    <div class="card-body">
+        <h3>Mahabaleshwar</h3>
+        <p>Popular hill station known for its strawberry farms, scenic viewpoints, and ancient temples in the Western Ghats.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Satara District, Maharashtra</span>
+            <span><i class="fas fa-rupee-sign"></i> No entry fee</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> All day</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.6</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/mahabaleshwar.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 30 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\matheran\matheran.webp" 
+             alt="Scenic view of Matheran hill station"
+             loading="lazy"
+             width="800"
+             height="600">
+    </div>
+    <div class="card-body">
+        <h3>Matheran</h3>
+        <p>Asia's only automobile-free hill station with colonial-era charm, 38 scenic viewpoints, and peaceful forest trails in the Western Ghats.</p>
+        
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Raigad District</span>
+            <span><i class="fas fa-rupee-sign"></i> ₹50 entry fee</span>
+        </div>
+        
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 6:00 AM - 6:00 PM</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.6 (2.4K reviews)</span>
+        </div>
+        
+        <div class="card-actions">
+            <a href="destinations/matheran.html" class="btn">
+                <i class="fas fa-info-circle"></i> View Details
+            </a>
+            <button class="btn btn-outline">
+                <i class="fas fa-calendar-plus"></i> Add to Itinerary
+            </button>
+        </div>
+    </div>
+</div>
+<!-- destination card 31 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\khandala\khandala.webp" alt="Khandala Hill Station">
+    </div>
+    <div class="card-body">
+        <h3>Khandala</h3>
+        <p>Picturesque hill station in the Western Ghats known for its misty valleys, waterfalls, and scenic viewpoints.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Lonavala-Khandala Valley</span>
+            <span><i class="fas fa-rupee-sign"></i> Free access</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> All day</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.6</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/khandala.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 32 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\lavasa_city\lavasa.jpg" alt="Lavasa City">
+    </div>
+    <div class="card-body">
+        <h3>Lavasa</h3>
+        <p>India's first planned hill city with picturesque lakeside promenades, adventure activities, and Mediterranean-style architecture.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Near Pune</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 24 hours</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.3</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/lavasa.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+<!-- destination card 33 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\panchaghani\panchghani.avif" 
+             alt="Panoramic view of Panchgani hill station with strawberry farms"
+             loading="lazy"
+             width="800"
+             height="600">
+    </div>
+    <div class="card-body">
+        <h3>Panchgani</h3>
+        <p>Scenic hill station famous for its strawberry farms, five hills, and breathtaking viewpoints overlooking the Krishna Valley.</p>
+        
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Satara District</span>
+            <span><i class="fas fa-rupee-sign"></i> Free access</span>
+        </div>
+        
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> All day</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.5 (1.8K reviews)</span>
+        </div>
+        
+        <div class="card-actions">
+            <a href="destinations/panchgani.html" class="btn">
+                <i class="fas fa-binoculars"></i> View Details
+            </a>
+            <button class="btn btn-outline">
+                <i class="fas fa-calendar-plus"></i> Add to Itinerary
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- destination card 34 -->
+
+<!-- destination card 35 -->
+<div class="destination-card">
+    <div class="card-img">
+        <img src="destinations\Photos\tamhini_ghat\tamhini_ghat.webp" alt="Tamhini Ghat">
+    </div>
+    <div class="card-body">
+        <h3>Tamhini Ghat</h3>
+        <p>Scenic mountain pass with lush greenery and waterfalls, famous for its monsoon beauty and winding roads.</p>
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Between Pune & Kolad</span>
+            <span><i class="fas fa-rupee-sign"></i> Free entry</span>
+        </div>
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> All day</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.6</span>
+        </div>
+        <div class="card-actions">
+            <a href="destinations/tamhini-ghat.html" class="btn">View Details</a>
+            <button class="btn btn-outline">Add to Itinerary</button>
+        </div>
+    </div>
+</div>
+
+<!-- destination card 36 -->
+<div class="destination-card activity-card">
+    <div class="card-img">
+        <img src="destinations\Photos\kamshet_paragliding\kamshet.webp" 
+             alt="Paragliding over Pune hills"
+             loading="lazy"
+             width="800"
+             height="600">
+    </div>
+    <div class="card-body">
+        <h3>Paragliding at Kamshet</h3>
+        <p>Experience thrilling tandem paragliding flights with professional pilots over the scenic Western Ghats landscape.</p>
+        
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Kamshet (60km from Pune)</span>
+            <span><i class="fas fa-rupee-sign"></i> ₹2,500 per flight</span>
+        </div>
+        
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> 7AM-5PM (Weather dependent)</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.8 (1.2K reviews)</span>
+        </div>
+        
+        <div class="card-actions">
+            <a href="destinations\paragliding.html" class="btn">
+                <i class="fas fa-info-circle"></i> View Details
+            </a>
+            <button class="btn btn-outline">
+                <i class="fas fa-calendar-plus"></i> Book Now
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- destination card 37 -->
+<div class="destination-card activity-card">
+    <div class="card-img">
+        <img src="destinations\Photos\chikaldara\chikaldara.jpg" 
+             alt="Scenic view of Chikhaldara hill station"
+             loading="lazy"
+             width="800"
+             height="600">
+    </div>
+    <div class="card-body">
+        <h3>Chikhaldara Hill Station</h3>
+        <p>Discover the only coffee-growing region in Maharashtra with misty valleys, waterfalls, and panoramic viewpoints in the Melghat Tiger Reserve.</p>
+        
+        <div class="card-meta">
+            <span><i class="fas fa-map-marker-alt"></i> Amravati District (230km from Pune)</span>
+            <span><i class="fas fa-rupee-sign"></i> No entry fee</span>
+        </div>
+        
+        <div class="card-meta">
+            <span><i class="fas fa-clock"></i> All day (Best: June-Feb)</span>
+            <span class="rating"><i class="fas fa-star"></i> 4.6 (980 reviews)</span>
+        </div>
+        
+        <div class="card-actions">
+            <a href="destinations\chikhaldara.html" class="btn">
+                <i class="fas fa-info-circle"></i> View Details
+            </a>
+            <button class="btn btn-outline">
+                <i class="fas fa-calendar-plus"></i> Add to Itinerary
+            </button>
+        </div>
+    </div>
+</div>
+        </section>   
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+          <title>Travel Sphere Chatbot</title>
+          <style>
+            :root {
+              --primary-color: #4e54c8;
+              --secondary-color: #8f94fb;
+              --background-color: #ffffff;
+              --text-color: #333333;
+              --bot-bg: #f0f0f0;
+              --user-bg: #dce1ff;
+            }
+        
+            body {
+              margin: 0;
+              font-family: 'Segoe UI', sans-serif;
+              background: var(--background-color);
+            }
+           
+
+
+
+        
+           /* Chatbot Button */
+#chatbot-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+  background: linear-gradient(135deg, var(--primary-color), #4dd0e1);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35),
+              0 0 10px rgba(77, 208, 225, 0.5);
+  transition: all 0.3s ease;
+  animation: bounce 2.5s infinite;
+}
+
+/* Hover Shine + Scale */
+#chatbot-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4),
+              0 0 15px rgba(77, 208, 225, 0.7),
+              inset 0 0 8px rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #00bcd4, var(--primary-color));
+}
+
+/* Optional Bounce Animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+        
+            /* Chat Modal */
+            #chatbot-modal {
+              display: none;
+              position: fixed;
+              bottom: 100px;
+              right: 30px;
+              width: 350px;
+              max-width: 90vw;
+              max-height: 75vh;
+              background: white;
+              border-radius: 15px;
+              box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+              overflow: hidden;
+              z-index: 1000;
+              display: flex;
+              flex-direction: column;
+            }
+        
+            .chatbot-header {
+              background: var(--primary-color);
+              color: white;
+              padding: 15px;
+              font-size: 18px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+        
+            .chatbot-body {
+              padding: 10px;
+              overflow-y: auto;
+              flex-grow: 1;
+              background-color: #fafafa;
+            }
+        
+            .chatbot-footer {
+              display: flex;
+              padding: 10px;
+              border-top: 1px solid #ccc;
+              background: white;
+            }
+        
+            .chatbot-footer input {
+              flex: 1;
+              padding: 10px;
+              border: 1px solid #ccc;
+              border-radius: 8px;
+              margin-right: 10px;
+            }
+        
+            .chatbot-footer button {
+              padding: 10px 15px;
+              background: var(--primary-color);
+              border: none;
+              color: white;
+              border-radius: 8px;
+              cursor: pointer;
+            }
+        
+            .chat-message {
+              margin: 10px 0;
+              display: flex;
+            }
+        
+            .chat-message.bot {
+              justify-content: flex-start;
+            }
+        
+            .chat-message.user {
+              justify-content: flex-end;
+            }
+        
+            .message-content {
+              padding: 10px 15px;
+              border-radius: 12px;
+              max-width: 80%;
+              font-size: 14px;
+            }
+        
+            .bot .message-content {
+              background: var(--bot-bg);
+              color: var(--text-color);
+            }
+        
+            .user .message-content {
+              background: var(--user-bg);
+              color: var(--text-color);
+            }
+        
+            .quick-replies {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 6px;
+              margin: 5px 0 0;
+            }
+        
+            .quick-replies button {
+              background: var(--secondary-color);
+              border: none;
+              padding: 6px 10px;
+              border-radius: 20px;
+              font-size: 12px;
+              color: white;
+              cursor: pointer;
+              transition: background 0.3s ease;
+            }
+        
+            .quick-replies button:hover {
+              background: var(--primary-color);
+            }
+        
+            /* Close Button */
+            .close-chat {
+              background: none;
+              border: none;
+              color: white;
+              font-size: 20px;
+              cursor: pointer;
+            }
+            /* Style for Reset Chat Button */
+.reset-chat-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    width: 100%;
+    font-size: 16px;
+}
+
+.reset-chat-button:hover {
+    background-color: #d32f2f;
+}
+
+            /* Scrollbar Styling */
+            .chatbot-body::-webkit-scrollbar {
+              width: 6px;
+            }
+        
+            .chatbot-body::-webkit-scrollbar-thumb {
+              background-color: rgba(0,0,0,0.1);
+              border-radius: 10px;
+            }
+          </style>
+        </head>
+        <body>
+        
+       <!-- chat bot button -->
+       <button id="chatbot-button" aria-label="Open Chatbot">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="40" fill="white" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 5.94 2 10.5c0 2.19 1.17 4.15 3.08 5.52-.16.6-.58 1.82-1.36 2.75-.1.12-.15.28-.15.43 0 .38.29.7.67.7.1 0 .19-.02.28-.06 1.85-.81 3.32-1.86 4.26-2.66.97.23 1.98.36 3.22.36 5.52 0 10-3.94 10-8.5S17.52 2 12 2zm-4 9c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm4 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm4 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+        </svg>
+      </button>
+     
+
+        
+        <!-- Chat Modal -->
+        <div id="chatbot-modal">
+          <div class="chatbot-header">
+            Travel Sphere Chatbot
+            <button class="close-chat" onclick="toggleChatbot()">×</button>
+          </div>
+             <!-- Reset Chat Button -->
+<button id="reset-chat-button" class="reset-chat-button">Reset Chat</button>
+          <div class="chatbot-body" id="chat-body">
+            <!-- Chat messages will go here -->
+          </div>
+          <div class="chatbot-footer">
+            <input type="text" id="chat-input" placeholder="Type your message..." />
+            <button onclick="sendMessage()">Send</button>
+          </div>
+        </div>
+    
+       
+      
+        </body>
+        </html>
+        
+    
+    <script src="chatbot.js"></script>
+    <script src="script.js"></script>
+    <script src="shopping.js"></script>
+    <div class="footer-copyright">
+        © 2025 Travel Sphere | Pune Travel Guide | 
+        Crafted with <i class="fas fa-heart" style="color: #e83e8c"></i> by Byte Bandits
+    </div>
+
+    <script>
+  function toggleMode() {
+    const body = document.body;
+    const icon = document.getElementById('mode-icon');
+    body.classList.toggle("dark-mode");
+
+    if (body.classList.contains("dark-mode")) {
+      icon.classList.remove("fa-moon");
+      icon.classList.add("fa-sun");
+    } else {
+      icon.classList.remove("fa-sun");
+      icon.classList.add("fa-moon");
+    }
+
+    // Optional: Save preference
+    localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
+  }
+
+  // Load saved theme
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark-mode");
+      document.getElementById("mode-icon").classList.replace("fa-moon", "fa-sun");
+    }
+  });
+  document.getElementById("chat-toggle").addEventListener("click", function() {
+  const chatContainer = document.getElementById("chat-container");
+  chatContainer.classList.toggle("hidden");
+
+  // Optional: change icon to "×" when open
+  this.textContent = chatContainer.classList.contains("hidden") ? "💬" : "×";
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pune Shopping Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom Styles */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1581539250439-c96689b516dd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        
+        /* Flip Card Styles */
+        .flip-card {
+            perspective: 1000px;
+            height: 100%;
+            cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            height: 100%;
+        }
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        /* Navbar and Footer Styles */
+        .navbar-brand {
+            font-weight: 600;
+        }
+        footer {
+            background-color: #212529 !important;
+            margin-top: auto;
+        }
+        .social-links a {
+            transition: all 0.3s;
+        }
+        .social-links a:hover {
+            opacity: 0.8;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shopping-bag me-2"></i>Pune Shopping Guide
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="hero-section py-5 text-center text-white mb-5">
+            <div class="container py-5">
+                <h1 class="display-4 fw-bold">Discover Pune's Best Shopping</h1>
+                <p class="lead">From traditional markets to modern malls - find your perfect shopping experience</p>
+            </div>
+        </div>
+
+        <div class="container mb-5">
+        <ul class="nav nav-tabs mb-4" id="shoppingTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="markets-tab" data-bs-toggle="tab" data-bs-target="#markets" type="button" role="tab">Traditional Markets</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="streets-tab" data-bs-toggle="tab" data-bs-target="#streets" type="button" role="tab">Shopping Streets</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="malls-tab" data-bs-toggle="tab" data-bs-target="#malls" type="button" role="tab">Modern Malls</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="shoppingTabsContent">
+            <div class="tab-pane fade show active" id="markets" role="tabpanel">
+                <div class="row g-4">
+                    <!-- Laxmi Road -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="flip-card" data-card-id="1">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card h-100">
+                                        <img src="destinations\Photos\shopping\laxmi-bagh.webp" class="card-img-top" alt="Laxmi Road">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Laxmi Road</h5>
+                                            <p class="card-text">Traditional Market</p>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <div><i class="fas fa-star text-warning"></i> 4.5</div>
+                                               
+                                            </div>
+                                            <small class="text-muted">Click for more details</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="card h-100 bg-light">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Laxmi Road</h5>
+                                            <p class="card-text">Pune's most famous shopping street with hundreds of shops selling clothing, jewelry, footwear and more</p>
+                                            
+                                            <ul class="list-group list-group-flush mb-3">
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-clock me-2"></i> 10 AM - 9 PM
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-info-circle me-2"></i> Best for: Clothing, Jewelry, Footwear
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-exclamation-circle me-2"></i> Bargaining expected, Closed on Mondays
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-primary w-100 btn-directions" data-lat="18.5108" data-lng="73.8553">
+                                                <i class="fas fa-directions me-2"></i> Get Directions
+                                            </button>
+                                            <small class="text-muted d-block mt-2">Click to flip back</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tulsi Baug -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="flip-card" data-card-id="2">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card h-100">
+                                        <img src="destinations\Photos\shopping\tulshibagh.jpg" class="card-img-top" alt="Tulsi Baug">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Tulsi Baug</h5>
+                                            <p class="card-text">Traditional Market</p>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <div><i class="fas fa-star text-warning"></i> 4.3</div>
+                                                
+                                            </div>
+                                            <small class="text-muted">Click for more details</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="card h-100 bg-light">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Tulsi Baug</h5>
+                                            <p class="card-text">Historic market known for religious items, spices, and traditional fabrics</p>
+                                            
+                                            <ul class="list-group list-group-flush mb-3">
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-clock me-2"></i> 9 AM - 8 PM
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-info-circle me-2"></i> Best for: Spices, Fabrics, Religious Items
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-exclamation-circle me-2"></i> Famous for spices and pooja items, Very crowded on weekends
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-primary w-100 btn-directions" data-lat="18.5176" data-lng="73.8474">
+                                                <i class="fas fa-directions me-2"></i> Get Directions
+                                            </button>
+                                            <small class="text-muted d-block mt-2">Click to flip back</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="streets" role="tabpanel">
+                <div class="row g-4">
+                    <!-- Fashion Street -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="flip-card" data-card-id="3">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card h-100">
+                                        <img src="destinations\Photos\shopping\fashion-street.jpg" class="card-img-top" alt="Fashion Street">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Fashion Street</h5>
+                                            <p class="card-text">Open-air Market</p>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <div><i class="fas fa-star text-warning"></i> 4.0</div>
+                                                
+                                            </div>
+                                            <small class="text-muted">Click for more details</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="card h-100 bg-light">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Fashion Street</h5>
+                                            <p class="card-text">Budget-friendly fashion hub with trendy clothes and accessories</p>
+                                            
+                                            <ul class="list-group list-group-flush mb-3">
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-clock me-2"></i> 11 AM - 8 PM
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-info-circle me-2"></i> Best for: Trendy Clothes, Accessories, Bags
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-exclamation-circle me-2"></i> Best for college students, Extreme bargaining possible
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-primary w-100 btn-directions" data-lat="18.5204" data-lng="73.8567">
+                                                <i class="fas fa-directions me-2"></i> Get Directions
+                                            </button>
+                                            <small class="text-muted d-block mt-2">Click to flip back</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FC Road -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="flip-card" data-card-id="4">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card h-100">
+                                        <img src="destinations\Photos\shopping\fc-raod.webp" class="card-img-top" alt="FC Road">
+                                        <div class="card-body">
+                                            <h5 class="card-title">FC Road</h5>
+                                            <p class="card-text">Shopping Street</p>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <div><i class="fas fa-star text-warning"></i> 4.2</div>
+                                                
+                                            </div>
+                                            <small class="text-muted">Click for more details</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="card h-100 bg-light">
+                                        <div class="card-body">
+                                            <h5 class="card-title">FC Road</h5>
+                                            <p class="card-text">Popular hangout with mix of branded stores and local shops</p>
+                                            
+                                            <ul class="list-group list-group-flush mb-3">
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-clock me-2"></i> 10 AM - 10 PM
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-info-circle me-2"></i> Best for: Books, Electronics, Street Food
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-exclamation-circle me-2"></i> Great street food options, Parking difficult
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-primary w-100 btn-directions" data-lat="18.5167" data-lng="73.8413">
+                                                <i class="fas fa-directions me-2"></i> Get Directions
+                                            </button>
+                                            <small class="text-muted d-block mt-2">Click to flip back</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="malls" role="tabpanel">
+                <div class="row g-4">
+                    <!-- Phoenix Marketcity -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="flip-card" data-card-id="5">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card h-100">
+                                        <img src="destinations\Photos\shopping\pheonix-mall.webp" class="card-img-top" alt="Phoenix Marketcity">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Phoenix Marketcity</h5>
+                                            <p class="card-text">Premium Mall</p>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <div><i class="fas fa-star text-warning"></i> 4.7</div>
+                                                
+                                            </div>
+                                            <small class="text-muted">Click for more details</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="card h-100 bg-light">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Phoenix Marketcity</h5>
+                                            <p class="card-text">Largest mall in Pune with international brands, multiplex and food court</p>
+                                            
+                                            <ul class="list-group list-group-flush mb-3">
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-clock me-2"></i> 11 AM - 10 PM
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-info-circle me-2"></i> Best for: International Brands, Entertainment, Dining
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-exclamation-circle me-2"></i> Premium shopping experience, Weekends very crowded
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-primary w-100 btn-directions" data-lat="18.5626" data-lng="73.9167">
+                                                <i class="fas fa-directions me-2"></i> Get Directions
+                                            </button>
+                                            <small class="text-muted d-block mt-2">Click to flip back</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Amanora Mall -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="flip-card" data-card-id="6">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card h-100">
+                                        <img src="destinations\Photos\shopping\amanora-mall.webp" class="card-img-top" alt="Amanora Mall">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Amanora Mall</h5>
+                                            <p class="card-text">Lifestyle Mall</p>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <div><i class="fas fa-star text-warning"></i> 4.6</div>
+                                              
+                                            </div>
+                                            <small class="text-muted">Click for more details</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="card h-100 bg-light">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Amanora Mall</h5>
+                                            <p class="card-text">Modern mall with mix of premium and high-street brands</p>
+                                            
+                                            <ul class="list-group list-group-flush mb-3">
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-clock me-2"></i> 10 AM - 10 PM
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-info-circle me-2"></i> Best for: Fashion, Home Decor, Entertainment
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-exclamation-circle me-2"></i> Good family destination, Regular sales and discounts
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-primary w-100 btn-directions" data-lat="18.5359" data-lng="73.9126">
+                                                <i class="fas fa-directions me-2"></i> Get Directions
+                                            </button>
+                                            <small class="text-muted d-block mt-2">Click to flip back</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Season Mall -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="flip-card" data-card-id="7">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="card h-100">
+                                        <img src="destinations\Photos\shopping\seasons-mall.avif" class="card-img-top" alt="Season Mall">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Season Mall</h5>
+                                            <p class="card-text">Community Mall</p>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <div><i class="fas fa-star text-warning"></i> 4.1</div>
+                                               
+                                            </div>
+                                            <small class="text-muted">Click for more details</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="card h-100 bg-light">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Season Mall</h5>
+                                            <p class="card-text">Compact mall serving Hadapsar area with essential brands</p>
+                                            
+                                            <ul class="list-group list-group-flush mb-3">
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-clock me-2"></i> 10 AM - 9:30 PM
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-info-circle me-2"></i> Best for: Daily Needs, Movies, Dining
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-exclamation-circle me-2"></i> Less crowded than other malls, Good parking available
+                                                </li>
+                                            </ul>
+
+                                            <button class="btn btn-primary w-100 btn-directions" data-lat="18.4962" data-lng="73.9416">
+                                                <i class="fas fa-directions me-2"></i> Get Directions
+                                            </button>
+                                            <small class="text-muted d-block mt-2">Click to flip back</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="shopping.js"></script>
+</body>
+</html>
